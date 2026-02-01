@@ -1,0 +1,167 @@
+openapi: 3.0.3
+info:
+  title: Brand Price API
+  description: API para consultar precios finales de productos por marca y fecha
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+
+servers:
+  - url: http://localhost:8080
+    description: Development server
+
+tags:
+  - name: prices
+    description: Operaciones relacionadas con precios
+
+paths:
+  /prices/final:
+    get:
+      tags:
+        - prices
+      summary: Obtener precio final de un producto
+      description: Retorna el precio aplicable para un producto en una marca específica en una fecha determinada
+      operationId: getFinalPrice
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: Fecha de aplicación del precio (formato ISO 8601)
+          schema:
+            type: string
+            format: date-time
+          example: "2020-06-14T10:00:00"
+        - name: productId
+          in: query
+          required: true
+          description: Identificador del producto
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          example: 35455
+        - name: brandId
+          in: query
+          required: true
+          description: Identificador de la marca
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          example: 1
+      responses:
+        '200':
+          description: Precio encontrado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponse'
+              examples:
+                success:
+                  value:
+                    productId: 35455
+                    brandId: 1
+                    priceList: 1
+                    startDate: "2020-06-14T00:00:00"
+                    endDate: "2020-12-31T23:59:59"
+                    price: 35.50
+                    curr: "EUR"
+        '400':
+          description: Parámetros inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Precio no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    PriceResponse:
+      type: object
+      required:
+        - productId
+        - brandId
+        - priceList
+        - startDate
+        - endDate
+        - price
+        - curr
+      properties:
+        productId:
+          type: integer
+          format: int64
+          description: Identificador del producto
+          example: 35455
+        brandId:
+          type: integer
+          format: int64
+          description: Identificador de la marca
+          example: 1
+        priceList:
+          type: integer
+          format: int64
+          description: Identificador de la tarifa aplicable
+          example: 1
+        startDate:
+          type: string
+          format: date-time
+          description: Fecha de inicio de validez del precio
+          example: "2020-06-14T00:00:00"
+        endDate:
+          type: string
+          format: date-time
+          description: Fecha de fin de validez del precio
+          example: "2020-12-31T23:59:59"
+        price:
+          type: number
+          format: double
+          description: Precio final de venta
+          example: 35.50
+        curr:
+          type: string
+          description: Código ISO de la moneda
+          example: "EUR"
+          minLength: 3
+          maxLength: 3
+
+    ErrorResponse:
+      type: object
+      required:
+        - timestamp
+        - status
+        - error
+        - message
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp del error
+        status:
+          type: integer
+          description: Código de estado HTTP
+        error:
+          type: string
+          description: Descripción del error HTTP
+        message:
+          type: string
+          description: Mensaje de error detallado
+        path:
+          type: string
+          description: Path del endpoint
+        fields:
+          type: object
+          additionalProperties:
+            type: string
+          description: Errores de validación por campo

@@ -1,0 +1,24 @@
+services:
+  brand-price-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: brand-price-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - JAVA_OPTS=-XX:MaxRAMPercentage=75.0 -XX:+HeapDumpOnOutOfMemoryError -Djava.security.egd=file:/dev/urandom
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/prices/final?date=2020-06-14T10:00:00&productId=35455&brandId=1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - brand-price-network
+
+networks:
+  brand-price-network:
+    driver: bridge
