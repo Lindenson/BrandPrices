@@ -1,6 +1,6 @@
 package com.wolper.prices.application.port.out;
 
-import com.wolper.prices.domain.model.Price;
+import com.wolper.prices.domain.model.BrandPrice;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,5 +19,5 @@ public interface PriceRepository {
      * @param brandId Identificador de la marca
      * @return Lista de precios aplicables ordenados por prioridad (mayor a menor)
      */
-    List<Price> findApplicablePrices(LocalDateTime applicationDate, Long productId, Long brandId);
+    List<BrandPrice> findApplicablePrices(LocalDateTime applicationDate, Long productId, Long brandId);
 }

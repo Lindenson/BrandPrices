@@ -1,7 +1,7 @@
 package com.wolper.prices.adapter.out.persistence;
 
 import com.wolper.prices.application.port.out.PriceRepository;
-import com.wolper.prices.domain.model.Price;
+import com.wolper.prices.domain.model.BrandPrice;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -45,7 +44,7 @@ public class JdbcPriceRepository implements PriceRepository {
         """;
     
     @Override
-    public List<Price> findApplicablePrices(LocalDateTime applicationDate, Long productId, Long brandId) {
+    public List<BrandPrice> findApplicablePrices(LocalDateTime applicationDate, Long productId, Long brandId) {
         log.debug("Ejecutando consulta: productId={}, brandId={}, fecha={}", 
                   productId, brandId, applicationDate);
         
@@ -54,7 +53,7 @@ public class JdbcPriceRepository implements PriceRepository {
                 .addValue("brandId", brandId)
                 .addValue("applicationDate", applicationDate);
         
-        List<Price> prices = jdbcTemplate.query(FIND_APPLICABLE_PRICES_QUERY, params, new PriceRowMapper());
+        List<BrandPrice> prices = jdbcTemplate.query(FIND_APPLICABLE_PRICES_QUERY, params, new PriceRowMapper());
         
         log.debug("Encontrados {} precios aplicables", prices.size());
         
@@ -64,10 +63,10 @@ public class JdbcPriceRepository implements PriceRepository {
     /**
      * RowMapper para convertir ResultSet a entidad Price.
      */
-    private static class PriceRowMapper implements RowMapper<Price> {
+    private static class PriceRowMapper implements RowMapper<BrandPrice> {
         @Override
-        public Price mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return Price.builder()
+        public BrandPrice mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return BrandPrice.builder()
                     .id(rs.getLong("id"))
                     .brandId(rs.getLong("brand_id"))
                     .startDate(rs.getTimestamp("start_date").toLocalDateTime())

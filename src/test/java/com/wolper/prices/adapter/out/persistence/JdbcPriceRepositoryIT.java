@@ -1,6 +1,6 @@
 package com.wolper.prices.adapter.out.persistence;
 
-import com.wolper.prices.domain.model.Price;
+import com.wolper.prices.domain.model.BrandPrice;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,11 +27,10 @@ class JdbcPriceRepositoryIT {
         Long brandId = 1L;
         
         // When
-        List<Price> prices = repository.findApplicablePrices(applicationDate, productId, brandId);
+        List<BrandPrice> prices = repository.findApplicablePrices(applicationDate, productId, brandId);
         
         // Then
-        assertThat(prices).isNotEmpty();
-        assertThat(prices).hasSize(1); // Solo un precio aplicable a las 10:00
+        assertThat(prices).isNotEmpty().hasSize(1); // Solo un precio aplicable a las 10:00
         assertThat(prices.getFirst().getPriceList()).isEqualTo(1L);
     }
     
@@ -43,7 +42,7 @@ class JdbcPriceRepositoryIT {
         Long brandId = 1L;
         
         // When
-        List<Price> prices = repository.findApplicablePrices(applicationDate, productId, brandId);
+        List<BrandPrice> prices = repository.findApplicablePrices(applicationDate, productId, brandId);
         
         // Then
         assertThat(prices).hasSize(2); // Dos precios aplicables
@@ -60,7 +59,7 @@ class JdbcPriceRepositoryIT {
         Long brandId = 1L;
         
         // When
-        List<Price> prices = repository.findApplicablePrices(applicationDate, productId, brandId);
+        List<BrandPrice> prices = repository.findApplicablePrices(applicationDate, productId, brandId);
         
         // Then
         assertThat(prices).isEmpty();
@@ -74,7 +73,7 @@ class JdbcPriceRepositoryIT {
         Long brandId = 1L;
         
         // When
-        List<Price> prices = repository.findApplicablePrices(applicationDate, productId, brandId);
+        List<BrandPrice> prices = repository.findApplicablePrices(applicationDate, productId, brandId);
         
         // Then
         assertThat(prices).isNotEmpty();
@@ -88,11 +87,9 @@ class JdbcPriceRepositoryIT {
         Long brandId = 1L;
         
         // When
-        List<Price> prices = repository.findApplicablePrices(applicationDate, productId, brandId);
+        List<BrandPrice> prices = repository.findApplicablePrices(applicationDate, productId, brandId);
         
         // Then
-        assertThat(prices).isNotEmpty();
-        // Debe incluir el precio que termina exactamente a esa hora
-        assertThat(prices).anyMatch(p -> p.getPriceList().equals(2L));
+        assertThat(prices).isNotEmpty().anyMatch(p -> p.getPriceList().equals(2L));
     }
 }

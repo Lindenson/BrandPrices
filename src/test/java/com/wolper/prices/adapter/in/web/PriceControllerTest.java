@@ -4,7 +4,7 @@ import com.wolper.prices.adapter.in.web.dto.PriceResponse;
 import com.wolper.prices.adapter.in.web.mapper.PriceMapper;
 import com.wolper.prices.application.port.in.GetFinalPriceUseCase;
 import com.wolper.prices.domain.exception.PriceNotFoundException;
-import com.wolper.prices.domain.model.Price;
+import com.wolper.prices.domain.model.BrandPrice;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -38,7 +38,7 @@ class PriceControllerTest {
     void testGetFinalPriceReturnsPrice() throws Exception {
         LocalDateTime date = LocalDateTime.of(2026, 1, 9, 10, 0);
 
-        Price price = getPriceForTest(date);
+        BrandPrice price = getPriceForTest(date);
         PriceResponse response = new PriceResponse(
                 35455L, 1L, 1L, date.minusDays(1),
                 date.plusDays(1), BigDecimal.valueOf(35.50), "EUR"
@@ -130,8 +130,8 @@ class PriceControllerTest {
     }
 
     // helper
-    private static Price getPriceForTest(LocalDateTime date) {
-        return Price.builder()
+    private static BrandPrice getPriceForTest(LocalDateTime date) {
+        return BrandPrice.builder()
                 .brandId(1L)
                 .productId(35455L)
                 .priceList(1L)

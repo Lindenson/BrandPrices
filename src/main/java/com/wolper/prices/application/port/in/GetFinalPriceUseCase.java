@@ -1,6 +1,6 @@
 package com.wolper.prices.application.port.in;
 
-import com.wolper.prices.domain.model.Price;
+import com.wolper.prices.domain.model.BrandPrice;
 
 import java.time.LocalDateTime;
 
@@ -19,5 +19,5 @@ public interface GetFinalPriceUseCase {
      * @return El precio aplicable con mayor prioridad
      * @throws com.wolper.prices.domain.exception.PriceNotFoundException si no se encuentra precio aplicable
      */
-    Price getFinalPrice(LocalDateTime applicationDate, Long productId, Long brandId);
+    BrandPrice getFinalPrice(LocalDateTime applicationDate, Long productId, Long brandId);
 }

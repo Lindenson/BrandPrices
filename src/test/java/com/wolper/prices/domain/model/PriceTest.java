@@ -19,7 +19,7 @@ class PriceTest {
         LocalDateTime endDate = LocalDateTime.of(2020, 12, 31, 23, 59);
         
         // When
-        Price price = Price.builder()
+        BrandPrice price = BrandPrice.builder()
                 .id(1L)
                 .brandId(1L)
                 .startDate(startDate)
@@ -45,7 +45,7 @@ class PriceTest {
         LocalDateTime endDate = LocalDateTime.of(2020, 12, 31, 23, 59);
         LocalDateTime testDate = LocalDateTime.of(2020, 6, 14, 10, 0);
         
-        Price price = Price.builder()
+        BrandPrice price = BrandPrice.builder()
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
@@ -64,7 +64,7 @@ class PriceTest {
         LocalDateTime endDate = LocalDateTime.of(2020, 6, 14, 18, 30);
         LocalDateTime testDate = LocalDateTime.of(2020, 6, 14, 10, 0);
         
-        Price price = Price.builder()
+        BrandPrice price = BrandPrice.builder()
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
@@ -83,7 +83,7 @@ class PriceTest {
         LocalDateTime endDate = LocalDateTime.of(2020, 6, 14, 18, 30);
         LocalDateTime testDate = LocalDateTime.of(2020, 6, 14, 21, 0);
         
-        Price price = Price.builder()
+        BrandPrice price = BrandPrice.builder()
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
@@ -98,8 +98,8 @@ class PriceTest {
     @Test
     void shouldHaveHigherPriorityWhenPriorityIsGreater() {
         // Given
-        Price highPriority = Price.builder().priority(1).build();
-        Price lowPriority = Price.builder().priority(0).build();
+        BrandPrice highPriority = BrandPrice.builder().priority(1).build();
+        BrandPrice lowPriority = BrandPrice.builder().priority(0).build();
         
         // When & Then
         assertThat(highPriority.hasHigherPriorityThan(lowPriority)).isTrue();
@@ -109,7 +109,7 @@ class PriceTest {
     @Test
     void shouldHaveHigherPriorityWhenOtherIsNull() {
         // Given
-        Price price = Price.builder().priority(0).build();
+        BrandPrice price = BrandPrice.builder().priority(0).build();
         
         // When & Then
         assertThat(price.hasHigherPriorityThan(null)).isTrue();

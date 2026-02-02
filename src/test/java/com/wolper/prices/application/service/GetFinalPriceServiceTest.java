@@ -2,7 +2,7 @@ package com.wolper.prices.application.service;
 
 import com.wolper.prices.application.port.out.PriceRepository;
 import com.wolper.prices.domain.exception.PriceNotFoundException;
-import com.wolper.prices.domain.model.Price;
+import com.wolper.prices.domain.model.BrandPrice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,7 +43,7 @@ class GetFinalPriceServiceTest {
         Long productId = 35455L;
         Long brandId = 1L;
         
-        Price expectedPrice = Price.builder()
+        BrandPrice expectedPrice = BrandPrice.builder()
                 .id(1L)
                 .brandId(brandId)
                 .productId(productId)
@@ -59,7 +59,7 @@ class GetFinalPriceServiceTest {
                 .thenReturn(List.of(expectedPrice));
         
         // When
-        Price result = service.getFinalPrice(applicationDate, productId, brandId);
+        BrandPrice result = service.getFinalPrice(applicationDate, productId, brandId);
         
         // Then
         assertThat(result).isNotNull();
@@ -76,14 +76,14 @@ class GetFinalPriceServiceTest {
         Long productId = 35455L;
         Long brandId = 1L;
         
-        Price highPriorityPrice = Price.builder()
+        BrandPrice highPriorityPrice = BrandPrice.builder()
                 .id(2L)
                 .priority(1)
                 .price(new BigDecimal("25.45"))
                 .priceList(2L)
                 .build();
         
-        Price lowPriorityPrice = Price.builder()
+        BrandPrice lowPriorityPrice = BrandPrice.builder()
                 .id(1L)
                 .priority(0)
                 .price(new BigDecimal("35.50"))
@@ -95,7 +95,7 @@ class GetFinalPriceServiceTest {
                 .thenReturn(List.of(highPriorityPrice, lowPriorityPrice));
         
         // When
-        Price result = service.getFinalPrice(applicationDate, productId, brandId);
+        BrandPrice result = service.getFinalPrice(applicationDate, productId, brandId);
         
         // Then
         assertThat(result).isNotNull();

@@ -3,7 +3,7 @@ package com.wolper.prices.adapter.in.web;
 import com.wolper.prices.adapter.in.web.dto.PriceResponse;
 import com.wolper.prices.adapter.in.web.mapper.PriceMapper;
 import com.wolper.prices.application.port.in.GetFinalPriceUseCase;
-import com.wolper.prices.domain.model.Price;
+import com.wolper.prices.domain.model.BrandPrice;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -85,7 +85,7 @@ public class PriceController {
         log.info("[{}] GET /prices/final - date={}, productId={}, brandId={}", 
                  requestId, date, productId, brandId);
         
-        Price price = getFinalPriceUseCase.getFinalPrice(date, productId, brandId);
+        BrandPrice price = getFinalPriceUseCase.getFinalPrice(date, productId, brandId);
         PriceResponse response = priceMapper.toResponse(price);
         
         HttpHeaders headers = new HttpHeaders();

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Price {
+public class BrandPrice {
     
     private Long id;
     private Long brandId;
@@ -38,7 +38,7 @@ public class Price {
     /**
      * Compara prioridades. Retorna true si este precio tiene mayor prioridad
      */
-    public boolean hasHigherPriorityThan(Price other) {
+    public boolean hasHigherPriorityThan(BrandPrice other) {
         if (other == null) {
             return true;
         }
